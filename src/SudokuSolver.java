@@ -1,5 +1,5 @@
 public class SudokuSolver extends Sudoku{
-    private static final int GRID_SIZE = 9;
+    private final int GRID_SIZE = 9;
     private int [][] board = {
             {0, 0, 3, 5, 6, 7, 8, 0, 0},
             {0, 2, 0, 8, 0, 0, 0, 9, 0},
@@ -15,12 +15,12 @@ public class SudokuSolver extends Sudoku{
 
     @Override
     public void createGrid() {
-        solveBoard(board);
-        printBoard(board);
+        solveBoard();
+        printBoard();
 
     }
 
-    private static void printBoard(int[][] board) {
+    private void printBoard() {
         for (int row = 0; row < GRID_SIZE; row++) {
             if (row % 3 == 0 && row != 0) {
                 System.out.println("-----------");
@@ -36,7 +36,7 @@ public class SudokuSolver extends Sudoku{
     }
 
 
-    private static boolean isNumberInRow(int[][] board, int number, int row) {
+    private boolean isNumberInRow(int number, int row) {
         for (int i = 0; i < GRID_SIZE; i++) {
             if (board[row][i] == number) {
                 return false;
@@ -46,7 +46,7 @@ public class SudokuSolver extends Sudoku{
     }
 
 
-    private static boolean isNumberInColumn(int[][] board, int number, int column) {
+    private boolean isNumberInColumn(int number, int column) {
         for (int i = 0; i < GRID_SIZE; i++) {
             if (board[i][column] == number) {
                 return false;
@@ -57,7 +57,7 @@ public class SudokuSolver extends Sudoku{
 
 
 
-    private static boolean isNumberInBox(int[][] board, int number, int row, int column) {
+    private boolean isNumberInBox(int number, int row, int column) {
         int localBoxRow = row - row % 3;
         int localBoxColumn = column - column % 3;
 
@@ -71,23 +71,23 @@ public class SudokuSolver extends Sudoku{
         return true;
     }
 
-    private static boolean isValidPlacement(int[][] board, int number, int row, int column) {
-        return isNumberInRow(board, number, row) &&
-                isNumberInColumn(board, number, column) &&
-                isNumberInBox(board, number, row, column);
+    private boolean isValidPlacement(int number, int row, int column) {
+        return isNumberInRow(number, row) &&
+                isNumberInColumn(number, column) &&
+                isNumberInBox(number, row, column);
     }
 
 
 
-    private static boolean solveBoard(int[][] board) {
+    private boolean solveBoard() {
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int column = 0; column < GRID_SIZE; column++) {
                 if (board[row][column] == 0) {
                     for (int numberToTry = 1; numberToTry <= GRID_SIZE; numberToTry++) {
-                        if (isValidPlacement(board, numberToTry, row, column)) {
+                        if (isValidPlacement(numberToTry, row, column)) {
                             board[row][column] = numberToTry;
 
-                            if (solveBoard(board)) {
+                            if (solveBoard()) {
                                 return true;
                             }
                             else {

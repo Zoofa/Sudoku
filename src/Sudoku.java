@@ -1,8 +1,7 @@
 public class Sudoku {
 
-    public void createGrid(){
+    public void createGrid(){}
 
-    }
 
 
 }
