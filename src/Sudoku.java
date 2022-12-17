@@ -2,7 +2,7 @@ public class Sudoku {
 
     public final int GRID_SIZE = 9;
 
-    public final int AMOUNTTOBEREMOVED = 70;
+    public final int AMOUNTTOBEREMOVED = 1;
 
     public void createGrid(){}
 
@@ -86,9 +86,9 @@ public class Sudoku {
                 isNumberInBox(number, row, column, board);
     }
 
-
-
-
+    public int[][] getBoard(){
+        return new int[0][];
+    }
 
 
 }

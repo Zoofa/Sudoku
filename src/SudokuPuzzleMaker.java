@@ -52,7 +52,7 @@ public class SudokuPuzzleMaker extends Sudoku{
     }
 
     private void createBoard(){
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < AMOUNTTOBEREMOVED; i++) {
             Random random = new Random();
             int randRow = random.nextInt(9);
             int randCol = random.nextInt(9);
@@ -63,12 +63,8 @@ public class SudokuPuzzleMaker extends Sudoku{
             board[randRow][randCol] = 0;
         }
     }
-
-
-
-
-
-
-
-
+    @Override
+    public int[][] getBoard() {
+        return board;
+    }
 }
