@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 public class SudokuPuzzleMaker extends Sudoku{
 
@@ -16,6 +14,18 @@ public class SudokuPuzzleMaker extends Sudoku{
             {0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
+    ArrayList<String> cells = new ArrayList<>();
+
+    private void createCellList(){
+        for (int i = 0; i < GRID_SIZE; i++) {
+            for (int j = 0; j < GRID_SIZE; j++) {
+                cells.add(String.valueOf(i) + String.valueOf(j));
+            }
+        }
+
+
+    }
+
 
     @Override
     public void createGrid() {
@@ -26,9 +36,6 @@ public class SudokuPuzzleMaker extends Sudoku{
         printBoard(board);
         System.out.println();
         createBoard();
-        printBoard(board);
-        System.out.println();
-        solveBoard(board);
         printBoard(board);
     }
 
@@ -45,7 +52,7 @@ public class SudokuPuzzleMaker extends Sudoku{
     }
 
     private void createBoard(){
-        for (int i = 0; i < 64; i++) {
+        for (int i = 0; i < 40; i++) {
             Random random = new Random();
             int randRow = random.nextInt(9);
             int randCol = random.nextInt(9);

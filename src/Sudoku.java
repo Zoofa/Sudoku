@@ -2,6 +2,8 @@ public class Sudoku {
 
     public final int GRID_SIZE = 9;
 
+    public final int AMOUNTTOBEREMOVED = 70;
+
     public void createGrid(){}
 
     public void printBoard(int[][] board) {
