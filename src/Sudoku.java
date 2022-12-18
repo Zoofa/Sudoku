@@ -2,7 +2,7 @@ public class Sudoku {
 
     public final int GRID_SIZE = 9;
 
-    public final int AMOUNTTOBEREMOVED = 60;
+    public int AMOUNTTOBEREMOVED = 30;
 
     public void createGrid(){}
 

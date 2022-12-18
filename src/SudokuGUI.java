@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.border.Border;
 import java.util.Objects;
@@ -22,6 +21,10 @@ public class SudokuGUI {
     private JButton button8;
     private JButton button9;
     private JButton newGameButton;
+    private JButton beginnerButton;
+    private JButton amateurButton;
+    private JButton noviceButton;
+    private JButton expertButton;
 
     private ArrayList<JButton> clickedButton = new ArrayList<>();
 
@@ -30,6 +33,8 @@ public class SudokuGUI {
     private int[][] board;
 
     private int emptyCells;
+
+    private ArrayList<JButton> levelButton = new ArrayList<>();
 
 
     public SudokuGUI() {
@@ -93,6 +98,65 @@ public class SudokuGUI {
                 endGameState();
             }
         });
+        beginnerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(levelButton.size() != 0){
+                    levelButton.get(0).setBackground(Color.GRAY);
+                    levelButton.remove(0);
+                } else{
+                    amateurButton.setBackground(Color.GRAY);
+                }
+                sudokuHashMap.get(1).AMOUNTTOBEREMOVED = 20;
+                beginnerButton.setBackground(Color.RED);
+                levelButton.add(beginnerButton);
+
+            }
+        });
+        amateurButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(levelButton.size() != 0){
+                    levelButton.get(0).setBackground(Color.GRAY);
+                    levelButton.remove(0);
+                }
+                sudokuHashMap.get(1).AMOUNTTOBEREMOVED = 30;
+                amateurButton.setBackground(Color.RED);
+                levelButton.add(amateurButton);
+
+
+            }
+        });
+        noviceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(levelButton.size() != 0){
+                    levelButton.get(0).setBackground(Color.GRAY);
+                    levelButton.remove(0);
+                } else{
+                    amateurButton.setBackground(Color.GRAY);
+                }
+                sudokuHashMap.get(1).AMOUNTTOBEREMOVED = 40;
+                noviceButton.setBackground(Color.RED);
+                levelButton.add(noviceButton);
+
+            }
+        });
+        expertButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(levelButton.size() != 0){
+                    levelButton.get(0).setBackground(Color.GRAY);
+                    levelButton.remove(0);
+                } else{
+                    amateurButton.setBackground(Color.GRAY);
+                }
+                sudokuHashMap.get(1).AMOUNTTOBEREMOVED = 50;
+                expertButton.setBackground(Color.RED);
+                levelButton.add(expertButton);
+
+            }
+        });
     }
 
     public void run() {
@@ -100,7 +164,7 @@ public class SudokuGUI {
         frame.setContentPane(panel1);
         frame.setTitle("Bereken product");
         frame.pack();
-        frame.setSize(700, 700);
+        frame.setSize(800, 800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Sudoku sudokuPuzzle = new SudokuPuzzleMaker();
         Sudoku sudokuSolver = new SudokuSolver();
@@ -108,6 +172,10 @@ public class SudokuGUI {
         sudokuHashMap.put(1, sudokuPuzzle);
         sudokuHashMap.put(2, sudokuSolver);
         sudokuHashMap.put(3, sudoku);
+        beginnerButton.setBackground(Color.GRAY);
+        amateurButton.setBackground(Color.RED);
+        noviceButton.setBackground(Color.GRAY);
+        expertButton.setBackground(Color.GRAY);
         addNumbers();
         frame.setVisible(true);
     }
@@ -115,7 +183,8 @@ public class SudokuGUI {
 
 
     private void addNumbers(){
-        emptyCells = sudokuHashMap.get(3).AMOUNTTOBEREMOVED;
+        System.out.println(sudokuHashMap.get(1).AMOUNTTOBEREMOVED);
+        emptyCells = sudokuHashMap.get(1).AMOUNTTOBEREMOVED;
         gridPanel.setLayout(new GridLayout(9,9));
         final Border fieldBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
         int localBoxRow;
