@@ -176,8 +176,15 @@ public class SudokuGUI {
             int row = Character.getNumericValue(cell.charAt(0));
             int col = Character.getNumericValue(cell.charAt(1));
             Sudoku test = new Sudoku();
-            int[][] testBoard = board;
+            int[][] testBoard = new int[9][9];
+            for(int i=0; i<board.length; i++)
+                for(int j=0; j<board[i].length; j++)
+                    testBoard[i][j]=board[i][j];
+            testBoard[row][col] = number;
             if(sudokuHashMap.get(3).isValidPlacement(number,row, col, board) && test.solveBoard(testBoard)){ //solves original board array as well
+                board[row][col] = number;
+                System.out.println();
+                sudokuHashMap.get(1).printBoard(board);
                 emptyCells--;
                 clickedButton.get(0).setText(String.valueOf(number));
                 clickedButton.get(0).setBackground(Color.WHITE);
