@@ -2,39 +2,12 @@ import java.util.*;
 
 public class SudokuPuzzleMaker extends Sudoku{
 
-    private int[][] board = {
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0}
-    };
-
-    ArrayList<String> cells = new ArrayList<>();
-
-    private void createCellList(){
-        for (int i = 0; i < GRID_SIZE; i++) {
-            for (int j = 0; j < GRID_SIZE; j++) {
-                cells.add(String.valueOf(i) + String.valueOf(j));
-            }
-        }
-
-
-    }
-
+    private int[][] board = new int[9][9];
 
     @Override
     public void createGrid() {
         createFirstRow();
-        printBoard(board);
-        System.out.println();
         solveBoard(board);
-        printBoard(board);
-        System.out.println();
         createBoard();
         printBoard(board);
     }
@@ -63,8 +36,14 @@ public class SudokuPuzzleMaker extends Sudoku{
             board[randRow][randCol] = 0;
         }
     }
+
     @Override
     public int[][] getBoard() {
         return board;
+    }
+
+    @Override
+    public void setBoard(int[][] board) {
+        this.board = board;
     }
 }

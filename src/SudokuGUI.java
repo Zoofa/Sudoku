@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.border.Border;
 import java.util.Objects;
@@ -20,12 +21,15 @@ public class SudokuGUI {
     private JButton button6;
     private JButton button8;
     private JButton button9;
+    private JButton newGameButton;
 
     private ArrayList<JButton> clickedButton = new ArrayList<>();
 
     private HashMap<Integer, Sudoku> sudokuHashMap = new HashMap<>();
 
     private int[][] board;
+
+    private int emptyCells;
 
 
     public SudokuGUI() {
@@ -83,6 +87,12 @@ public class SudokuGUI {
                 fillNumber(9);
             }
         });
+        newGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                endGameState();
+            }
+        });
     }
 
     public void run() {
@@ -105,6 +115,7 @@ public class SudokuGUI {
 
 
     private void addNumbers(){
+        emptyCells = sudokuHashMap.get(3).AMOUNTTOBEREMOVED;
         gridPanel.setLayout(new GridLayout(9,9));
         final Border fieldBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
         int localBoxRow;
@@ -118,30 +129,30 @@ public class SudokuGUI {
                 JButton b;
                 if(String.valueOf(board[row][column]).equals("0")){
                     b = new JButton("");
+                    b.setBackground(Color.YELLOW);
                 } else{
                     b = new JButton(String.valueOf(board[row][column]));
+                    b.setBackground(Color.WHITE);
                 }
-                b.setName(String.valueOf(row + "" + column));
+                b.setName(row + "" + column);
                 b.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if(Objects.equals(b.getText(), "")){
-                            System.out.println("hi");
                             if(clickedButton.size() != 0){
-                                clickedButton.get(0).setBackground(Color.WHITE);
+                                clickedButton.get(0).setBackground(Color.YELLOW);
                                 clickedButton.remove(0);
                             }
                             clickedButton.add(b);
                             b.setBackground(Color.CYAN);
                         } else{
                             if(clickedButton.size() != 0){
-                                clickedButton.get(0).setBackground(Color.WHITE);
+                                clickedButton.get(0).setBackground(Color.YELLOW);
                                 clickedButton.remove(0);
                             }
                         }
                     }
                 });
-                b.setBackground(Color.WHITE);
                 if(localBoxRow == 0 && localBoxColumn == 0){
                     b.setBorder(fieldBorder);
                 } else if (localBoxRow == 0 && localBoxColumn == 6) {
@@ -164,18 +175,27 @@ public class SudokuGUI {
             String cell = clickedButton.get(0).getName();
             int row = Character.getNumericValue(cell.charAt(0));
             int col = Character.getNumericValue(cell.charAt(1));
-            System.out.println(cell);
-            System.out.println(row);
-            System.out.println(col);
-            if(sudokuHashMap.get(3).isValidPlacement(number,row, col, board)){
-                board[row][col] = number;
+            Sudoku test = new Sudoku();
+            int[][] testBoard = board;
+            if(sudokuHashMap.get(3).isValidPlacement(number,row, col, board) && test.solveBoard(testBoard)){ //solves original board array as well
+                emptyCells--;
                 clickedButton.get(0).setText(String.valueOf(number));
                 clickedButton.get(0).setBackground(Color.WHITE);
                 clickedButton.remove(0);
-
+            }
+            if(emptyCells == 0){
+                endGameState();
             }
         }
 
+    }
+
+    public void endGameState(){
+        gridPanel.removeAll();
+        sudokuHashMap.get(1).setBoard(new int[9][9]);
+        addNumbers();
+        gridPanel.validate();
+        gridPanel.repaint();
     }
 
 
