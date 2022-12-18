@@ -25,6 +25,8 @@ public class SudokuGUI {
     private JButton amateurButton;
     private JButton noviceButton;
     private JButton expertButton;
+    private JButton normalButton;
+    private JButton pencilButton;
 
     private ArrayList<JButton> clickedButton = new ArrayList<>();
 
@@ -32,6 +34,7 @@ public class SudokuGUI {
 
     private int[][] board;
 
+    private final Border fieldBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
     private int emptyCells;
 
     private ArrayList<JButton> levelButton = new ArrayList<>();
@@ -157,6 +160,18 @@ public class SudokuGUI {
 
             }
         });
+        normalButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        pencilButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
     public void run() {
@@ -177,6 +192,7 @@ public class SudokuGUI {
         noviceButton.setBackground(Color.GRAY);
         expertButton.setBackground(Color.GRAY);
         addNumbers();
+        gridPanel.setBorder(fieldBorder);
         frame.setVisible(true);
     }
 
@@ -186,7 +202,6 @@ public class SudokuGUI {
         System.out.println(sudokuHashMap.get(1).AMOUNTTOBEREMOVED);
         emptyCells = sudokuHashMap.get(1).AMOUNTTOBEREMOVED;
         gridPanel.setLayout(new GridLayout(9,9));
-        final Border fieldBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
         int localBoxRow;
         int localBoxColumn;
         sudokuHashMap.get(1).createGrid();
@@ -250,7 +265,7 @@ public class SudokuGUI {
                 for(int j=0; j<board[i].length; j++)
                     testBoard[i][j]=board[i][j];
             testBoard[row][col] = number;
-            if(sudokuHashMap.get(3).isValidPlacement(number,row, col, board) && test.solveBoard(testBoard)){ //solves original board array as well
+            if(sudokuHashMap.get(3).isValidPlacement(number,row, col, board) && sudokuHashMap.get(3).solveBoard(testBoard)){
                 board[row][col] = number;
                 System.out.println();
                 sudokuHashMap.get(1).printBoard(board);
