@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.border.Border;
 import java.util.Objects;
@@ -39,60 +40,63 @@ public class SudokuGUI {
 
     private ArrayList<JButton> levelButton = new ArrayList<>();
 
+    private ArrayList<Integer> pencil = new ArrayList<>();
+
 
     public SudokuGUI() {
+
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fillNumber(1);
+                buttonClick(1);
             }
         });
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fillNumber(2);
+                buttonClick(2);
             }
         });
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fillNumber(3);
+                buttonClick(3);
             }
         });
         button4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fillNumber(4);
+                buttonClick(4);
             }
         });
         button5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fillNumber(5);
+                buttonClick(5);
             }
         });
         button6.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fillNumber(6);
+                buttonClick(6);
             }
         });
         button7.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fillNumber(7);
+                buttonClick(7);
             }
         });
         button8.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fillNumber(8);
+                buttonClick(8);
             }
         });
         button9.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fillNumber(9);
+                buttonClick(9);
             }
         });
         newGameButton.addActionListener(new ActionListener() {
@@ -163,13 +167,19 @@ public class SudokuGUI {
         normalButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if(pencil.size() != 0){
+                    pencil.remove(0);
+                    pencilButton.setBackground(Color.GRAY);
+                    normalButton.setBackground(Color.RED);
+                }
             }
         });
         pencilButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                pencil.add(1);
+                pencilButton.setBackground(Color.RED);
+                normalButton.setBackground(Color.GRAY);
             }
         });
     }
@@ -191,6 +201,7 @@ public class SudokuGUI {
         amateurButton.setBackground(Color.RED);
         noviceButton.setBackground(Color.GRAY);
         expertButton.setBackground(Color.GRAY);
+        normalButton.setBackground(Color.RED);
         addNumbers();
         gridPanel.setBorder(fieldBorder);
         frame.setVisible(true);
@@ -222,18 +233,17 @@ public class SudokuGUI {
                 b.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        if(Objects.equals(b.getText(), "")){
+                        String last = "";
+                        if(!Objects.equals(b.getText(), "")){
+                            last = String.valueOf(b.getText().charAt(b.getText().length() - 1));
+                        }
+                        if(Objects.equals(b.getText(), "") || last.equals(" ") ){
                             if(clickedButton.size() != 0){
                                 clickedButton.get(0).setBackground(Color.YELLOW);
                                 clickedButton.remove(0);
                             }
                             clickedButton.add(b);
                             b.setBackground(Color.CYAN);
-                        } else{
-                            if(clickedButton.size() != 0){
-                                clickedButton.get(0).setBackground(Color.YELLOW);
-                                clickedButton.remove(0);
-                            }
                         }
                     }
                 });
@@ -287,6 +297,52 @@ public class SudokuGUI {
         addNumbers();
         gridPanel.validate();
         gridPanel.repaint();
+    }
+
+    public void buttonClick(int Bnumber){
+        if(pencil.size() == 0){
+            fillNumber(Bnumber);
+        } else {
+            if (clickedButton.size() != 0) {
+                String buttonText = clickedButton.get(0).getText();
+                if (buttonText.equals("")) {
+                    clickedButton.get(0).setText(Bnumber + " ");
+                } else {
+                    String[] numbers = buttonText.split(" ");
+                    numbers = numbers[0].split("");
+                    boolean alreadyPlaced = false;
+                    for (String number : numbers) {
+                        if (Objects.equals(number, Integer.toString(Bnumber))) {
+                            alreadyPlaced = true;
+                            StringBuilder sb = new StringBuilder(buttonText);
+                            sb.deleteCharAt(buttonText.length() - 1);
+                            buttonText = sb.toString();
+                            if (numbers.length == 1) {
+                                clickedButton.get(0).setText("");
+                            }
+                        }
+                    }
+                    if (!alreadyPlaced) {
+                        StringBuilder sb = new StringBuilder(buttonText);
+                        sb.deleteCharAt(buttonText.length() - 1);
+                        buttonText = sb.toString();
+                        clickedButton.get(0).setText(buttonText + Bnumber + " ");
+                    } else {
+                        if (!Objects.equals(clickedButton.get(0).getText(), "")) {
+                            String text = "";
+                            for (String number : numbers) {
+                                if (!Objects.equals(number, Integer.toString(Bnumber))) {
+                                    text += number;
+                                }
+                            }
+                            clickedButton.get(0).setText(text + " ");
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
 
 
