@@ -51,7 +51,10 @@ public class SudokuGUITest {
     private int[][] board;
     private int[][] emptyBoard = new int[9][9];
 
+    private boolean solved = false;
+
     private final Border fieldBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
+    private final Border emptyBoarder = BorderFactory.createLineBorder(Color.GRAY, 1);
     private int emptyCells;
 
     private ArrayList<JButton> levelButton = new ArrayList<>();
@@ -288,6 +291,7 @@ public class SudokuGUITest {
         intermediateButton.setBackground(Color.GRAY);
         expertButton.setBackground(Color.GRAY);
         normalButton.setBackground(Color.RED);
+        pencilButton.setBackground(Color.GRAY);
         addNumbers();
         createEmptyGrid();
         gridPanel.setBorder(fieldBorder);
@@ -314,8 +318,10 @@ public class SudokuGUITest {
                 } else{
                     b = new JButton(String.valueOf(board[row][column]));
                     b.setBackground(Color.WHITE);
+                    b.setFont(new Font("Arial", Font.BOLD, 16));
                 }
                 b.setName(row + "" + column);
+                //b.setSize(new Dimension(20, 20));
                 b.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -343,6 +349,8 @@ public class SudokuGUITest {
                     b.setBorder(fieldBorder);
                 } else if (localBoxRow == 6 && localBoxColumn == 6) {
                     b.setBorder(fieldBorder);
+                } else{
+                    b.setBorder(emptyBoarder);
                 }
                 gridPanel.add(b);
             }
@@ -354,25 +362,31 @@ public class SudokuGUITest {
         sudokuEmptyGrid.setLayout(new GridLayout(9,9));
         int localBoxRow;
         int localBoxColumn;
-        System.out.println(Arrays.deepToString(emptyBoard));
         for (int row = 0; row < sudokuHashMap.get(1).GRID_SIZE; row++) {
             for (int column = 0; column < sudokuHashMap.get(1).GRID_SIZE; column++) {
                 localBoxRow = row - row % 3;
                 localBoxColumn = column - column % 3;
-                JButton b = new JButton("");
-                b.setBackground(Color.WHITE);
-                b.setName(row + "" + column);
-                b.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if(clickedButtonSolver.size() != 0){
-                            clickedButtonSolver.get(0).setBackground(Color.WHITE);
-                            clickedButtonSolver.remove(0);
+                JButton b;
+                if(!solved){
+                    b = new JButton("");
+                    b.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if(clickedButtonSolver.size() != 0){
+                                clickedButtonSolver.get(0).setBackground(Color.WHITE);
+                                clickedButtonSolver.remove(0);
+                            }
+                            clickedButtonSolver.add(b);
+                            b.setBackground(Color.CYAN);
                         }
-                        clickedButtonSolver.add(b);
-                        b.setBackground(Color.CYAN);
-                    }
-                });
+                    });
+                } else{
+                    System.out.println(emptyBoard[row][column]);
+                    b = new JButton(String.valueOf(emptyBoard[row][column]));
+                }
+                b.setBackground(Color.WHITE);
+                b.setFont(new Font("Arial", Font.BOLD, 16));
+                b.setName(row + "" + column);
                 if(localBoxRow == 0 && localBoxColumn == 0){
                     b.setBorder(fieldBorder);
                 } else if (localBoxRow == 0 && localBoxColumn == 6) {
@@ -387,7 +401,7 @@ public class SudokuGUITest {
                 sudokuEmptyGrid.add(b);
             }
         }
-
+        System.out.println(Arrays.deepToString(emptyBoard));
     }
 
 
@@ -409,6 +423,7 @@ public class SudokuGUITest {
                 emptyCells--;
                 clickedButton.get(0).setText(String.valueOf(number));
                 clickedButton.get(0).setBackground(Color.WHITE);
+                clickedButton.get(0).setFont(new Font("Arial", Font.BOLD, 16));
                 clickedButton.remove(0);
             }
             if(emptyCells == 0){
@@ -419,13 +434,15 @@ public class SudokuGUITest {
     }
 
     public void solveBoard(){
-        System.out.println(Arrays.deepToString(emptyBoard));
         sudokuHashMap.get(2).setBoard(emptyBoard);
-        System.out.println(Arrays.deepToString(sudokuHashMap.get(2).getBoard()));
         sudokuHashMap.get(2).createGrid();
         System.out.println(Arrays.deepToString(emptyBoard));
+        solved = true;
+        sudokuEmptyGrid.removeAll();
+        createEmptyGrid();
+        sudokuEmptyGrid.validate();
+        sudokuEmptyGrid.repaint();
     }
-
 
     public void endGameState(){
         gridPanel.removeAll();
@@ -438,6 +455,7 @@ public class SudokuGUITest {
     public void resetGrid(){
         sudokuEmptyGrid.removeAll();
         emptyBoard = new int[9][9];
+        solved = false;
         createEmptyGrid();
         sudokuEmptyGrid.validate();
         sudokuEmptyGrid.repaint();
@@ -448,9 +466,10 @@ public class SudokuGUITest {
         String cell = clickedButtonSolver.get(0).getName();
         int row = Character.getNumericValue(cell.charAt(0));
         int col = Character.getNumericValue(cell.charAt(1));
-        emptyBoard[row][col] = number;
-        System.out.println(Arrays.deepToString(emptyBoard));
-        clickedButtonSolver.get(0).setText(String.valueOf(number));
+        if(sudokuHashMap.get(2).isValidPlacement(number, row, col, emptyBoard)){
+            emptyBoard[row][col] = number;
+            clickedButtonSolver.get(0).setText(String.valueOf(number));
+        }
     }
 
 
@@ -462,6 +481,7 @@ public class SudokuGUITest {
                 String buttonText = clickedButton.get(0).getText();
                 if (buttonText.equals("")) {
                     clickedButton.get(0).setText(Bnumber + " ");
+                    clickedButton.get(0).setFont(new Font("Arial", Font.BOLD, 10));
                 } else {
                     String[] numbers = buttonText.split(" ");
                     numbers = numbers[0].split("");
