@@ -1,24 +1,24 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import javax.swing.border.Border;
 import java.util.Objects;
 
-
-public class SudokuGUI {
+public class SudokuGUITest {
     private JPanel panel1;
-    private JPanel gridPanel;
+    private JTabbedPane tabbedPane1;
     private JButton button1;
     private JButton button4;
     private JButton button7;
     private JButton button2;
-    private JButton button3;
     private JButton button5;
-    private JButton button6;
     private JButton button8;
+    private JButton button3;
+    private JButton button6;
     private JButton button9;
     private JButton newGameButton;
     private JButton beginnerButton;
@@ -27,12 +27,29 @@ public class SudokuGUI {
     private JButton expertButton;
     private JButton normalButton;
     private JButton pencilButton;
-
+    private JPanel gridPanel;
+    private JPanel sudokuGame;
+    private JPanel sudokuSolver;
+    private JButton a1Button;
+    private JButton a7Button;
+    private JButton a4Button;
+    private JButton a2Button;
+    private JButton a3Button;
+    private JButton a5Button;
+    private JButton a6Button;
+    private JButton a8Button;
+    private JButton a9Button;
+    private JButton resetButton;
+    private JPanel sudokuEmptyGrid;
+    private JButton solveButton;
     private ArrayList<JButton> clickedButton = new ArrayList<>();
+
+    private ArrayList<JButton> clickedButtonSolver = new ArrayList<>();
 
     private HashMap<Integer, Sudoku> sudokuHashMap = new HashMap<>();
 
     private int[][] board;
+    private int[][] emptyBoard = new int[9][9];
 
     private final Border fieldBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
     private int emptyCells;
@@ -41,8 +58,7 @@ public class SudokuGUI {
 
     private ArrayList<Integer> pencil = new ArrayList<>();
 
-
-    public SudokuGUI() {
+    public SudokuGUITest() {
 
         button1.addActionListener(new ActionListener() {
             @Override
@@ -181,7 +197,78 @@ public class SudokuGUI {
                 normalButton.setBackground(Color.GRAY);
             }
         });
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetGrid();
+            }
+        });
+        solveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                solveBoard();
+            }
+        });
+
+        a1Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                emptyBoardClick(1);
+            }
+        });
+        a2Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                emptyBoardClick(2);
+            }
+        });
+        a3Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                emptyBoardClick(3);
+            }
+        });
+        a4Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                emptyBoardClick(4);
+            }
+        });
+        a5Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                emptyBoardClick(5);
+            }
+        });
+        a6Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                emptyBoardClick(6);
+            }
+        });
+        a7Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                emptyBoardClick(7);
+            }
+        });
+        a8Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                emptyBoardClick(8);
+            }
+        });
+        a9Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                emptyBoardClick(9);
+            }
+        });
     }
+
+
+
 
     public void run() {
         JFrame frame = new JFrame();
@@ -202,11 +289,11 @@ public class SudokuGUI {
         expertButton.setBackground(Color.GRAY);
         normalButton.setBackground(Color.RED);
         addNumbers();
+        createEmptyGrid();
         gridPanel.setBorder(fieldBorder);
+        sudokuEmptyGrid.setBorder(fieldBorder);
         frame.setVisible(true);
     }
-
-
 
     private void addNumbers(){
         System.out.println(sudokuHashMap.get(1).AMOUNTTOBEREMOVED);
@@ -263,6 +350,48 @@ public class SudokuGUI {
     }
 
 
+    public void createEmptyGrid(){
+        sudokuEmptyGrid.setLayout(new GridLayout(9,9));
+        int localBoxRow;
+        int localBoxColumn;
+        System.out.println(Arrays.deepToString(emptyBoard));
+        for (int row = 0; row < sudokuHashMap.get(1).GRID_SIZE; row++) {
+            for (int column = 0; column < sudokuHashMap.get(1).GRID_SIZE; column++) {
+                localBoxRow = row - row % 3;
+                localBoxColumn = column - column % 3;
+                JButton b = new JButton("");
+                b.setBackground(Color.WHITE);
+                b.setName(row + "" + column);
+                b.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if(clickedButtonSolver.size() != 0){
+                            clickedButtonSolver.get(0).setBackground(Color.WHITE);
+                            clickedButtonSolver.remove(0);
+                        }
+                        clickedButtonSolver.add(b);
+                        b.setBackground(Color.CYAN);
+                    }
+                });
+                if(localBoxRow == 0 && localBoxColumn == 0){
+                    b.setBorder(fieldBorder);
+                } else if (localBoxRow == 0 && localBoxColumn == 6) {
+                    b.setBorder(fieldBorder);
+                } else if (localBoxRow == 3 && localBoxColumn == 3) {
+                    b.setBorder(fieldBorder);
+                } else if (localBoxRow == 6 && localBoxColumn == 0) {
+                    b.setBorder(fieldBorder);
+                } else if (localBoxRow == 6 && localBoxColumn == 6) {
+                    b.setBorder(fieldBorder);
+                }
+                sudokuEmptyGrid.add(b);
+            }
+        }
+
+    }
+
+
+
     public void fillNumber(int number){
         if(clickedButton.size() != 0){
             String cell = clickedButton.get(0).getName();
@@ -289,6 +418,15 @@ public class SudokuGUI {
 
     }
 
+    public void solveBoard(){
+        System.out.println(Arrays.deepToString(emptyBoard));
+        sudokuHashMap.get(2).setBoard(emptyBoard);
+        System.out.println(Arrays.deepToString(sudokuHashMap.get(2).getBoard()));
+        sudokuHashMap.get(2).createGrid();
+        System.out.println(Arrays.deepToString(emptyBoard));
+    }
+
+
     public void endGameState(){
         gridPanel.removeAll();
         sudokuHashMap.get(1).setBoard(new int[9][9]);
@@ -296,6 +434,25 @@ public class SudokuGUI {
         gridPanel.validate();
         gridPanel.repaint();
     }
+
+    public void resetGrid(){
+        sudokuEmptyGrid.removeAll();
+        emptyBoard = new int[9][9];
+        createEmptyGrid();
+        sudokuEmptyGrid.validate();
+        sudokuEmptyGrid.repaint();
+    }
+
+    public void emptyBoardClick(int number){
+        //clickedButtonSolver.get(0).setText(number);
+        String cell = clickedButtonSolver.get(0).getName();
+        int row = Character.getNumericValue(cell.charAt(0));
+        int col = Character.getNumericValue(cell.charAt(1));
+        emptyBoard[row][col] = number;
+        System.out.println(Arrays.deepToString(emptyBoard));
+        clickedButtonSolver.get(0).setText(String.valueOf(number));
+    }
+
 
     public void buttonClick(int Bnumber){
         if(pencil.size() == 0){
