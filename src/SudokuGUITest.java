@@ -292,6 +292,28 @@ public class SudokuGUITest {
         expertButton.setBackground(Color.GRAY);
         normalButton.setBackground(Color.RED);
         pencilButton.setBackground(Color.GRAY);
+        button1.setBackground(Color.GRAY);
+        button2.setBackground(Color.GRAY);
+        button3.setBackground(Color.GRAY);
+        button4.setBackground(Color.GRAY);
+        button5.setBackground(Color.GRAY);
+        button6.setBackground(Color.GRAY);
+        button7.setBackground(Color.GRAY);
+        button8.setBackground(Color.GRAY);
+        button9.setBackground(Color.GRAY);
+        resetButton.setBackground(Color.GRAY);
+        newGameButton.setBackground(Color.GRAY);
+        solveButton.setBackground(Color.GRAY);
+        a1Button.setBackground(Color.GRAY);
+        a2Button.setBackground(Color.GRAY);
+        a3Button.setBackground(Color.GRAY);
+        a4Button.setBackground(Color.GRAY);
+        a5Button.setBackground(Color.GRAY);
+        a6Button.setBackground(Color.GRAY);
+        a6Button.setBackground(Color.GRAY);
+        a7Button.setBackground(Color.GRAY);
+        a8Button.setBackground(Color.GRAY);
+        a9Button.setBackground(Color.GRAY);
         addNumbers();
         createEmptyGrid();
         gridPanel.setBorder(fieldBorder);
@@ -495,10 +517,17 @@ public class SudokuGUITest {
                         }
                     }
                     if (!alreadyPlaced) {
-                        StringBuilder sb = new StringBuilder(buttonText);
+/*                        StringBuilder sb = new StringBuilder(buttonText);
                         sb.deleteCharAt(buttonText.length() - 1);
-                        buttonText = sb.toString();
-                        clickedButton.get(0).setText(buttonText + Bnumber + " ");
+                        buttonText = sb.toString();*/
+                        numbers = Arrays.copyOf(numbers, numbers.length + 1);
+                        numbers[numbers.length - 1] = String.valueOf(Bnumber);
+                        String text = "";
+                        Arrays.sort(numbers);
+                        for (String number : numbers) {
+                            text += number;
+                        }
+                        clickedButton.get(0).setText(text + " ");
                     } else {
                         if (!Objects.equals(clickedButton.get(0).getText(), "")) {
                             String text = "";
