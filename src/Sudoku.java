@@ -4,6 +4,10 @@ public class Sudoku {
 
     public int AMOUNTTOBEREMOVED = 30;
 
+    public int points;
+
+    public int removePoints;
+
     public void createGrid(){}
 
     public void printBoard(int[][] board) {
