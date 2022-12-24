@@ -52,7 +52,9 @@ public class SudokuGUITest {
     private int[][] board;
     private int[][] emptyBoard = new int[9][9];
 
-    private String name;
+    private boolean newGame = false;
+
+    private String name = "";
 
     private boolean solved = false;
 
@@ -136,6 +138,7 @@ public class SudokuGUITest {
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                newGame = true;
                 endGameState();
             }
         });
@@ -305,6 +308,7 @@ public class SudokuGUITest {
         deleteHighscoreButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                players.putIntoHashmap();
                 players.deletePlayer(name);
             }
         });
@@ -367,7 +371,13 @@ public class SudokuGUITest {
         a7Button.setBackground(Color.GRAY);
         a8Button.setBackground(Color.GRAY);
         a9Button.setBackground(Color.GRAY);
-        name = JOptionPane.showInputDialog("Wat is uw naam?").toLowerCase();
+        while(name == null || name.equals("")){
+            try{
+                name = JOptionPane.showInputDialog("Wat is uw naam?");
+            } catch (NullPointerException ignored) {
+            }
+        }
+        name = name.toLowerCase();
         addNumbers();
         createEmptyGrid();
         gridPanel.setBorder(fieldBorder);
@@ -529,7 +539,9 @@ public class SudokuGUITest {
     }
 
     public void endGameState(){
-        if(!switchUser){
+        System.out.println(newGame);
+        if(!switchUser && !newGame){
+            System.out.println("zel");
             end = Instant.now();
             Duration timeElapsed = Duration.between(start, end);
             timeElapsed = Duration.between(start, end);
@@ -538,8 +550,17 @@ public class SudokuGUITest {
             players.putIntoHashmap();
             players.searchPlayer(name, String.valueOf(points));
             players.writeToFile();
-        } else{
-            name = JOptionPane.showInputDialog("Wat is uw naam?").toLowerCase();
+            JOptionPane.showMessageDialog(null,"Your high score is: " + players.oldScore(name) + "\nThis game score is: " + points);
+            newGame = false;
+        } else if(switchUser){
+            name = "";
+            while(name == null || name.equals("")){
+                try{
+                    name = JOptionPane.showInputDialog("Wat is uw naam?");
+                } catch (NullPointerException ignored) {
+                }
+            }
+            name = name.toLowerCase();
             switchUser = false;
         }
         gridPanel.removeAll();

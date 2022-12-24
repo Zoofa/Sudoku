@@ -21,20 +21,33 @@ public class PlayersCSV {
             }
             System.out.println(players);
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Exception ignored) {
         }
     }
 
+
+    public String oldScore(String key){
+        if(players.containsKey(key)){
+            return players.get(key);
+        }
+        return "0";
+    }
+
     public void searchPlayer(String name, String points){
-            players.put(name, points);
-            System.out.println(players);
+            if(players.containsKey(name)){
+                int value = Integer.parseInt(players.get(name));
+                if(value < Integer.parseInt(points)){
+                    players.put(name, points);
+                }
+            } else{
+                players.put(name, points);
+            }
     }
 
     public void deletePlayer(String name){
         Iterator<String> it = players.keySet().iterator();
         while (it.hasNext()) {
-            String key = (String) it.next();
+            String key = it.next();
             if(Objects.equals(key, name)){
                 players.remove(key);
             }
