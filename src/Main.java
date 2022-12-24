@@ -5,8 +5,5 @@ public class Main {
         //SudokuGUI s = new SudokuGUI();
         SudokuGUITest s = new SudokuGUITest();
         s.run();
-
     }
-
-
 }

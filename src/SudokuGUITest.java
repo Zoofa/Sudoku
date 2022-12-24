@@ -3,10 +3,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -44,6 +41,8 @@ public class SudokuGUITest {
     private JButton resetButton;
     private JPanel sudokuEmptyGrid;
     private JButton solveButton;
+    private JButton switchUserButton;
+    private JButton deleteHighscoreButton;
     private ArrayList<JButton> clickedButton = new ArrayList<>();
 
     private ArrayList<JButton> clickedButtonSolver = new ArrayList<>();
@@ -60,6 +59,8 @@ public class SudokuGUITest {
     private Instant start;
     private Instant end;
 
+    boolean switchUser = false;
+
     private ArrayList<Difficulty> difficulty = new ArrayList<>();
 
     private final Border fieldBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
@@ -69,6 +70,8 @@ public class SudokuGUITest {
     private int points;
 
     private int removePoints;
+
+    private PlayersCSV players;
 
     private ArrayList<JButton> levelButton = new ArrayList<>();
 
@@ -145,9 +148,9 @@ public class SudokuGUITest {
                 } else{
                     amateurButton.setBackground(Color.GRAY);
                 }
-                sudokuHashMap.get(3).AMOUNTTOBEREMOVED = difficulty.get(0).getRemoving();
-                sudokuHashMap.get(3).points = difficulty.get(0).getPoints();
-                sudokuHashMap.get(3).removePoints = difficulty.get(0).getRemovePoints();
+                sudokuHashMap.get(1).AMOUNTTOBEREMOVED = difficulty.get(0).getRemoving();
+                sudokuHashMap.get(1).points = difficulty.get(0).getPoints();
+                sudokuHashMap.get(1).removePoints = difficulty.get(0).getRemovePoints();
                 beginnerButton.setBackground(Color.RED);
                 levelButton.add(beginnerButton);
 
@@ -160,9 +163,9 @@ public class SudokuGUITest {
                     levelButton.get(0).setBackground(Color.GRAY);
                     levelButton.remove(0);
                 }
-                sudokuHashMap.get(3).AMOUNTTOBEREMOVED = difficulty.get(1).getRemoving();
-                sudokuHashMap.get(3).points = difficulty.get(1).getPoints();
-                sudokuHashMap.get(3).removePoints = difficulty.get(1).getRemovePoints();
+                sudokuHashMap.get(1).AMOUNTTOBEREMOVED = difficulty.get(1).getRemoving();
+                sudokuHashMap.get(1).points = difficulty.get(1).getPoints();
+                sudokuHashMap.get(1).removePoints = difficulty.get(1).getRemovePoints();
                 amateurButton.setBackground(Color.RED);
                 levelButton.add(amateurButton);
 
@@ -178,9 +181,9 @@ public class SudokuGUITest {
                 } else{
                     amateurButton.setBackground(Color.GRAY);
                 }
-                sudokuHashMap.get(3).AMOUNTTOBEREMOVED = difficulty.get(2).getRemoving();
-                sudokuHashMap.get(3).points = difficulty.get(2).getPoints();
-                sudokuHashMap.get(3).removePoints = difficulty.get(2).getRemovePoints();
+                sudokuHashMap.get(1).AMOUNTTOBEREMOVED = difficulty.get(2).getRemoving();
+                sudokuHashMap.get(1).points = difficulty.get(2).getPoints();
+                sudokuHashMap.get(1).removePoints = difficulty.get(2).getRemovePoints();
                 intermediateButton.setBackground(Color.RED);
                 levelButton.add(intermediateButton);
 
@@ -195,9 +198,9 @@ public class SudokuGUITest {
                 } else{
                     amateurButton.setBackground(Color.GRAY);
                 }
-                sudokuHashMap.get(3).AMOUNTTOBEREMOVED = difficulty.get(3).getRemoving();
-                sudokuHashMap.get(3).points = difficulty.get(3).getPoints();
-                sudokuHashMap.get(3).removePoints = difficulty.get(3).getRemovePoints();
+                sudokuHashMap.get(1).AMOUNTTOBEREMOVED = difficulty.get(3).getRemoving();
+                sudokuHashMap.get(1).points = difficulty.get(3).getPoints();
+                sudokuHashMap.get(1).removePoints = difficulty.get(3).getRemovePoints();
                 expertButton.setBackground(Color.RED);
                 levelButton.add(expertButton);
 
@@ -289,6 +292,22 @@ public class SudokuGUITest {
                 emptyBoardClick(9);
             }
         });
+        switchUserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int reply = JOptionPane.showConfirmDialog(null, "Choosing a new user will reset the grid without saving. Are you sure?", "change user", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    switchUser = true;
+                    endGameState();
+                }
+            }
+        });
+        deleteHighscoreButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                players.deletePlayer(name);
+            }
+        });
     }
 
 
@@ -309,6 +328,7 @@ public class SudokuGUITest {
         Difficulty amateur = new Amateur();
         Difficulty Intermdiate = new Intermediate();
         Difficulty Expert = new Expert();
+        players = new PlayersCSV();
         difficulty.add(beginner);
         difficulty.add(amateur);
         difficulty.add(Intermdiate);
@@ -316,9 +336,9 @@ public class SudokuGUITest {
         sudokuHashMap.put(1, sudokuPuzzle);
         sudokuHashMap.put(2, sudokuSolver);
         sudokuHashMap.put(3, sudoku);
-        sudokuHashMap.get(3).AMOUNTTOBEREMOVED = difficulty.get(1).getRemoving();
-        sudokuHashMap.get(3).points = difficulty.get(1).getPoints();
-        sudokuHashMap.get(3).removePoints = difficulty.get(1).getRemovePoints();
+        sudokuHashMap.get(1).AMOUNTTOBEREMOVED = difficulty.get(1).getRemoving();
+        sudokuHashMap.get(1).points = difficulty.get(1).getPoints();
+        sudokuHashMap.get(1).removePoints = difficulty.get(1).getRemovePoints();
         beginnerButton.setBackground(Color.GRAY);
         amateurButton.setBackground(Color.RED);
         intermediateButton.setBackground(Color.GRAY);
@@ -347,7 +367,7 @@ public class SudokuGUITest {
         a7Button.setBackground(Color.GRAY);
         a8Button.setBackground(Color.GRAY);
         a9Button.setBackground(Color.GRAY);
-        name = JOptionPane.showInputDialog("Wat is uw naam?");
+        name = JOptionPane.showInputDialog("Wat is uw naam?").toLowerCase();
         addNumbers();
         createEmptyGrid();
         gridPanel.setBorder(fieldBorder);
@@ -356,9 +376,9 @@ public class SudokuGUITest {
     }
 
     private void addNumbers(){
-        emptyCells = sudokuHashMap.get(3).AMOUNTTOBEREMOVED;
-        points = sudokuHashMap.get(3).points;
-        removePoints = sudokuHashMap.get(3).removePoints;
+        emptyCells = sudokuHashMap.get(1).AMOUNTTOBEREMOVED;
+        points = sudokuHashMap.get(1).points;
+        removePoints = sudokuHashMap.get(1).removePoints;
         System.out.println(emptyCells);
         System.out.println(points);
         System.out.println(removePoints);
@@ -509,11 +529,19 @@ public class SudokuGUITest {
     }
 
     public void endGameState(){
-        end = Instant.now();
-        Duration timeElapsed = Duration.between(start, end);
-        timeElapsed = Duration.between(start, end);
-        points = (int) (points - timeElapsed.getSeconds());
-        System.out.println(points);
+        if(!switchUser){
+            end = Instant.now();
+            Duration timeElapsed = Duration.between(start, end);
+            timeElapsed = Duration.between(start, end);
+            points = (int) (points - timeElapsed.getSeconds());
+            System.out.println(points);
+            players.putIntoHashmap();
+            players.searchPlayer(name, String.valueOf(points));
+            players.writeToFile();
+        } else{
+            name = JOptionPane.showInputDialog("Wat is uw naam?").toLowerCase();
+            switchUser = false;
+        }
         gridPanel.removeAll();
         sudokuHashMap.get(1).setBoard(new int[9][9]);
         addNumbers();
@@ -529,6 +557,7 @@ public class SudokuGUITest {
         sudokuEmptyGrid.validate();
         sudokuEmptyGrid.repaint();
     }
+
 
     public void emptyBoardClick(int number){
         //clickedButtonSolver.get(0).setText(number);
@@ -564,9 +593,6 @@ public class SudokuGUITest {
                         }
                     }
                     if (!alreadyPlaced) {
-/*                        StringBuilder sb = new StringBuilder(buttonText);
-                        sb.deleteCharAt(buttonText.length() - 1);
-                        buttonText = sb.toString();*/
                         numbers = Arrays.copyOf(numbers, numbers.length + 1);
                         numbers[numbers.length - 1] = String.valueOf(Bnumber);
                         String text = "";
@@ -589,9 +615,6 @@ public class SudokuGUITest {
                 }
             }
         }
-
-
     }
-
 
 }
