@@ -53,6 +53,8 @@ public class SudokuGUITest {
     private int[][] board;
     private int[][] emptyBoard = new int[9][9];
 
+    private String name;
+
     private boolean solved = false;
 
     private Instant start;
@@ -345,6 +347,7 @@ public class SudokuGUITest {
         a7Button.setBackground(Color.GRAY);
         a8Button.setBackground(Color.GRAY);
         a9Button.setBackground(Color.GRAY);
+        name = JOptionPane.showInputDialog("Wat is uw naam?");
         addNumbers();
         createEmptyGrid();
         gridPanel.setBorder(fieldBorder);
