@@ -321,7 +321,7 @@ public class SudokuGUITest {
 
         JFrame frame = new JFrame();
         frame.setContentPane(panel1);
-        frame.setTitle("Bereken product");
+        frame.setTitle("Sudoku");
         frame.pack();
         //frame.setSize(1200, 1200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
