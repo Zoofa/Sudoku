@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SudokuGUITest {
     private JPanel panel1;
@@ -78,6 +80,10 @@ public class SudokuGUITest {
     private ArrayList<JButton> levelButton = new ArrayList<>();
 
     private ArrayList<Integer> pencil = new ArrayList<>();
+
+    private ArrayList<Integer> usedNumbers = new ArrayList<>();
+
+    private ArrayList<JButton> buttons = new ArrayList<>();
 
     public SudokuGUITest() {
 
@@ -323,7 +329,6 @@ public class SudokuGUITest {
         frame.setContentPane(panel1);
         frame.setTitle("Sudoku");
         frame.pack();
-        //frame.setSize(1200, 1200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Sudoku sudokuPuzzle = new SudokuPuzzleMaker();
         Sudoku sudokuSolver = new SudokuSolver();
@@ -378,7 +383,14 @@ public class SudokuGUITest {
             }
         }
         name = name.toLowerCase();
+        createButtonList();
+        fillUsedNumbers();
+        System.out.println(usedNumbers);
         addNumbers();
+        removeUsedNumber();
+        numberComplete();
+        System.out.println(usedNumbers);
+        System.out.println(usedNumbers.size());
         createEmptyGrid();
         gridPanel.setBorder(fieldBorder);
         sudokuEmptyGrid.setBorder(fieldBorder);
@@ -411,7 +423,6 @@ public class SudokuGUITest {
                     b.setFont(new Font("Arial", Font.BOLD, 16));
                 }
                 b.setName(row + "" + column);
-                //b.setSize(new Dimension(20, 20));
                 b.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -492,7 +503,6 @@ public class SudokuGUITest {
                 sudokuEmptyGrid.add(b);
             }
         }
-        System.out.println(Arrays.deepToString(emptyBoard));
     }
 
 
@@ -509,6 +519,8 @@ public class SudokuGUITest {
             testBoard[row][col] = number;
             if(sudokuHashMap.get(3).isValidPlacement(number,row, col, board) && sudokuHashMap.get(3).solveBoard(testBoard)){
                 board[row][col] = number;
+                removeNumberList(number);
+                numberComplete();
                 System.out.println();
                 sudokuHashMap.get(1).printBoard(board);
                 emptyCells--;
@@ -637,5 +649,89 @@ public class SudokuGUITest {
             }
         }
     }
+
+
+
+    public void fillUsedNumbers(){
+        for (int i = 1; i < 82; i++) {
+            if (i < 10){
+                usedNumbers.add(1);
+            } else if (i < 19) {
+                usedNumbers.add(2);
+            } else if (i < 28) {
+                usedNumbers.add(3);
+            } else if (i< 37) {
+                usedNumbers.add(4);
+            } else if (i<46) {
+                usedNumbers.add(5);
+            } else if (i<55) {
+                usedNumbers.add(6);
+            } else if (i<64) {
+                usedNumbers.add(7);
+            } else if (i<73) {
+                usedNumbers.add(8);
+            } else {
+                usedNumbers.add(9);
+            }
+        }
+    }
+
+    public void removeUsedNumber(){
+        Iterator it;
+        boolean found;
+        for (int i = 0; i < sudokuHashMap.get(1).GRID_SIZE; i++) {
+            for (int j = 0; j < sudokuHashMap.get(1).GRID_SIZE; j++) {
+                int number = board[i][j];
+                it = usedNumbers.iterator();
+                found = false;
+                while (it.hasNext() && !found){
+                    int usedNumber = (int) it.next();
+                    if(number == usedNumber){
+                        it.remove();
+                        found = true;
+                    }
+                }
+            }
+        }
+    }
+
+    public void removeNumberList(int number){
+        Iterator it = usedNumbers.iterator();
+        boolean found = false;
+        while (it.hasNext() && !found){
+            int usedNumber = (int) it.next();
+            if(number == usedNumber){
+                it.remove();
+                found = true;
+            }
+        }
+    }
+
+    public void createButtonList(){
+        buttons.add(button1);
+        buttons.add(button2);
+        buttons.add(button3);
+        buttons.add(button4);
+        buttons.add(button5);
+        buttons.add(button6);
+        buttons.add(button7);
+        buttons.add(button8);
+        buttons.add(button9);
+    }
+
+    public void numberComplete(){
+        for (JButton b : buttons){
+            b.setEnabled(false);
+        }
+        List<Integer> newList = usedNumbers.stream().distinct().toList();
+        for (int number : newList){
+            buttons.get(number - 1).setEnabled(true);
+        }
+    }
+
+
+
+
+
 
 }
