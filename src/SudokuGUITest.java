@@ -577,7 +577,11 @@ public class SudokuGUITest {
         }
         gridPanel.removeAll();
         sudokuHashMap.get(1).setBoard(new int[9][9]);
+        setButtonsTrue();
+        fillUsedNumbers();
         addNumbers();
+        removeUsedNumber();
+        numberComplete();
         gridPanel.validate();
         gridPanel.repaint();
     }
@@ -653,6 +657,7 @@ public class SudokuGUITest {
 
 
     public void fillUsedNumbers(){
+        usedNumbers.clear();
         for (int i = 1; i < 82; i++) {
             if (i < 10){
                 usedNumbers.add(1);
@@ -717,6 +722,12 @@ public class SudokuGUITest {
         buttons.add(button7);
         buttons.add(button8);
         buttons.add(button9);
+    }
+
+    public void setButtonsTrue(){
+        for (JButton b : buttons){
+            b.setEnabled(true);
+        }
     }
 
     public void numberComplete(){
