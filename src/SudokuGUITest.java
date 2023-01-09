@@ -324,7 +324,6 @@ public class SudokuGUITest {
 
 
     public void run() {
-
         JFrame frame = new JFrame();
         frame.setContentPane(panel1);
         frame.setTitle("Sudoku");
@@ -348,34 +347,34 @@ public class SudokuGUITest {
         sudokuHashMap.get(1).AMOUNTTOBEREMOVED = difficulty.get(1).getRemoving();
         sudokuHashMap.get(1).points = difficulty.get(1).getPoints();
         sudokuHashMap.get(1).removePoints = difficulty.get(1).getRemovePoints();
-        beginnerButton.setBackground(Color.GRAY);
-        amateurButton.setBackground(Color.RED);
-        intermediateButton.setBackground(Color.GRAY);
-        expertButton.setBackground(Color.GRAY);
-        normalButton.setBackground(Color.RED);
-        pencilButton.setBackground(Color.GRAY);
-        button1.setBackground(Color.GRAY);
-        button2.setBackground(Color.GRAY);
-        button3.setBackground(Color.GRAY);
-        button4.setBackground(Color.GRAY);
-        button5.setBackground(Color.GRAY);
-        button6.setBackground(Color.GRAY);
-        button7.setBackground(Color.GRAY);
-        button8.setBackground(Color.GRAY);
-        button9.setBackground(Color.GRAY);
-        resetButton.setBackground(Color.GRAY);
-        newGameButton.setBackground(Color.GRAY);
-        solveButton.setBackground(Color.GRAY);
-        a1Button.setBackground(Color.GRAY);
-        a2Button.setBackground(Color.GRAY);
-        a3Button.setBackground(Color.GRAY);
-        a4Button.setBackground(Color.GRAY);
-        a5Button.setBackground(Color.GRAY);
-        a6Button.setBackground(Color.GRAY);
-        a6Button.setBackground(Color.GRAY);
-        a7Button.setBackground(Color.GRAY);
-        a8Button.setBackground(Color.GRAY);
-        a9Button.setBackground(Color.GRAY);
+//        beginnerButton.setBackground(Color.GRAY);
+//        amateurButton.setBackground(Color.RED);
+//        intermediateButton.setBackground(Color.GRAY);
+//        expertButton.setBackground(Color.GRAY);
+//        normalButton.setBackground(Color.RED);
+//        pencilButton.setBackground(Color.GRAY);
+//        button1.setBackground(Color.GRAY);
+//        button2.setBackground(Color.GRAY);
+//        button3.setBackground(Color.GRAY);
+//        button4.setBackground(Color.GRAY);
+//        button5.setBackground(Color.GRAY);
+//        button6.setBackground(Color.GRAY);
+//        button7.setBackground(Color.GRAY);
+//        button8.setBackground(Color.GRAY);
+//        button9.setBackground(Color.GRAY);
+//        resetButton.setBackground(Color.GRAY);
+//        newGameButton.setBackground(Color.GRAY);
+//        solveButton.setBackground(Color.GRAY);
+//        a1Button.setBackground(Color.GRAY);
+//        a2Button.setBackground(Color.GRAY);
+//        a3Button.setBackground(Color.GRAY);
+//        a4Button.setBackground(Color.GRAY);
+//        a5Button.setBackground(Color.GRAY);
+//        a6Button.setBackground(Color.GRAY);
+//        a6Button.setBackground(Color.GRAY);
+//        a7Button.setBackground(Color.GRAY);
+//        a8Button.setBackground(Color.GRAY);
+//        a9Button.setBackground(Color.GRAY);
         while(name == null || name.equals("")){
             try{
                 name = JOptionPane.showInputDialog("Wat is uw naam?");
@@ -440,23 +439,27 @@ public class SudokuGUITest {
                         }
                     }
                 });
-                if(localBoxRow == 0 && localBoxColumn == 0){
-                    b.setBorder(fieldBorder);
-                } else if (localBoxRow == 0 && localBoxColumn == 6) {
-                    b.setBorder(fieldBorder);
-                } else if (localBoxRow == 3 && localBoxColumn == 3) {
-                    b.setBorder(fieldBorder);
-                } else if (localBoxRow == 6 && localBoxColumn == 0) {
-                    b.setBorder(fieldBorder);
-                } else if (localBoxRow == 6 && localBoxColumn == 6) {
-                    b.setBorder(fieldBorder);
-                } else{
-                    b.setBorder(emptyBoarder);
-                }
+                createOutlining(localBoxRow, localBoxColumn, b);
                 gridPanel.add(b);
             }
         }
         start = Instant.now();
+    }
+
+    public void createOutlining(int localBoxRow, int localBoxColumn, JButton b){
+        if(localBoxRow == 0 && localBoxColumn == 0){
+            b.setBorder(fieldBorder);
+        } else if (localBoxRow == 0 && localBoxColumn == 6) {
+            b.setBorder(fieldBorder);
+        } else if (localBoxRow == 3 && localBoxColumn == 3) {
+            b.setBorder(fieldBorder);
+        } else if (localBoxRow == 6 && localBoxColumn == 0) {
+            b.setBorder(fieldBorder);
+        } else if (localBoxRow == 6 && localBoxColumn == 6) {
+            b.setBorder(fieldBorder);
+        } else{
+            b.setBorder(emptyBoarder);
+        }
     }
 
 
@@ -489,23 +492,11 @@ public class SudokuGUITest {
                 b.setBackground(Color.WHITE);
                 b.setFont(new Font("Arial", Font.BOLD, 16));
                 b.setName(row + "" + column);
-                if(localBoxRow == 0 && localBoxColumn == 0){
-                    b.setBorder(fieldBorder);
-                } else if (localBoxRow == 0 && localBoxColumn == 6) {
-                    b.setBorder(fieldBorder);
-                } else if (localBoxRow == 3 && localBoxColumn == 3) {
-                    b.setBorder(fieldBorder);
-                } else if (localBoxRow == 6 && localBoxColumn == 0) {
-                    b.setBorder(fieldBorder);
-                } else if (localBoxRow == 6 && localBoxColumn == 6) {
-                    b.setBorder(fieldBorder);
-                }
+                createOutlining(localBoxRow, localBoxColumn, b);
                 sudokuEmptyGrid.add(b);
             }
         }
     }
-
-
 
     public void fillNumber(int number){
         if(clickedButton.size() != 0){
