@@ -151,10 +151,10 @@ public class SudokuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(levelButton.size() != 0){
-                    levelButton.get(0).setBackground(Color.GRAY);
+                    levelButton.get(0).setBackground(null);
                     levelButton.remove(0);
                 } else{
-                    amateurButton.setBackground(Color.GRAY);
+                    amateurButton.setBackground(null);
                 }
                 sudokuHashMap.get(1).AMOUNTTOBEREMOVED = difficulty.get(0).getRemoving();
                 sudokuHashMap.get(1).points = difficulty.get(0).getPoints();
@@ -168,7 +168,7 @@ public class SudokuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(levelButton.size() != 0){
-                    levelButton.get(0).setBackground(Color.GRAY);
+                    levelButton.get(0).setBackground(null);
                     levelButton.remove(0);
                 }
                 sudokuHashMap.get(1).AMOUNTTOBEREMOVED = difficulty.get(1).getRemoving();
@@ -184,10 +184,10 @@ public class SudokuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(levelButton.size() != 0){
-                    levelButton.get(0).setBackground(Color.GRAY);
+                    levelButton.get(0).setBackground(null);
                     levelButton.remove(0);
                 } else{
-                    amateurButton.setBackground(Color.GRAY);
+                    amateurButton.setBackground(null);
                 }
                 sudokuHashMap.get(1).AMOUNTTOBEREMOVED = difficulty.get(2).getRemoving();
                 sudokuHashMap.get(1).points = difficulty.get(2).getPoints();
@@ -201,10 +201,10 @@ public class SudokuGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(levelButton.size() != 0){
-                    levelButton.get(0).setBackground(Color.GRAY);
+                    levelButton.get(0).setBackground(null);
                     levelButton.remove(0);
                 } else{
-                    amateurButton.setBackground(Color.GRAY);
+                    amateurButton.setBackground(null);
                 }
                 sudokuHashMap.get(1).AMOUNTTOBEREMOVED = difficulty.get(3).getRemoving();
                 sudokuHashMap.get(1).points = difficulty.get(3).getPoints();
@@ -219,7 +219,7 @@ public class SudokuGUI {
             public void actionPerformed(ActionEvent e) {
                 if(pencil.size() != 0){
                     pencil.remove(0);
-                    pencilButton.setBackground(Color.GRAY);
+                    pencilButton.setBackground(null);
                     normalButton.setBackground(Color.RED);
                 }
             }
@@ -229,7 +229,7 @@ public class SudokuGUI {
             public void actionPerformed(ActionEvent e) {
                 pencil.add(1);
                 pencilButton.setBackground(Color.RED);
-                normalButton.setBackground(Color.GRAY);
+                normalButton.setBackground(null);
             }
         });
         resetButton.addActionListener(new ActionListener() {
@@ -346,34 +346,8 @@ public class SudokuGUI {
         sudokuHashMap.get(1).AMOUNTTOBEREMOVED = difficulty.get(1).getRemoving();
         sudokuHashMap.get(1).points = difficulty.get(1).getPoints();
         sudokuHashMap.get(1).removePoints = difficulty.get(1).getRemovePoints();
-//        beginnerButton.setBackground(Color.GRAY);
-//        amateurButton.setBackground(Color.RED);
-//        intermediateButton.setBackground(Color.GRAY);
-//        expertButton.setBackground(Color.GRAY);
-//        normalButton.setBackground(Color.RED);
-//        pencilButton.setBackground(Color.GRAY);
-//        button1.setBackground(Color.GRAY);
-//        button2.setBackground(Color.GRAY);
-//        button3.setBackground(Color.GRAY);
-//        button4.setBackground(Color.GRAY);
-//        button5.setBackground(Color.GRAY);
-//        button6.setBackground(Color.GRAY);
-//        button7.setBackground(Color.GRAY);
-//        button8.setBackground(Color.GRAY);
-//        button9.setBackground(Color.GRAY);
-//        resetButton.setBackground(Color.GRAY);
-//        newGameButton.setBackground(Color.GRAY);
-//        solveButton.setBackground(Color.GRAY);
-//        a1Button.setBackground(Color.GRAY);
-//        a2Button.setBackground(Color.GRAY);
-//        a3Button.setBackground(Color.GRAY);
-//        a4Button.setBackground(Color.GRAY);
-//        a5Button.setBackground(Color.GRAY);
-//        a6Button.setBackground(Color.GRAY);
-//        a6Button.setBackground(Color.GRAY);
-//        a7Button.setBackground(Color.GRAY);
-//        a8Button.setBackground(Color.GRAY);
-//        a9Button.setBackground(Color.GRAY);
+        amateurButton.setBackground(Color.RED);
+        normalButton.setBackground(Color.RED);
         while(name == null || name.equals("")){
             try{
                 name = JOptionPane.showInputDialog("Wat is uw naam?");
